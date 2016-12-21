@@ -104,7 +104,13 @@ SymbolLayout::SymbolLayout(std::string bucketName_,
 
         if (hasIcon) {
             ft.icon = util::replaceTokens(layout.get<IconImage>(), getValue);
-            ft.iconOffset = layout.get<IconOffset>().evaluate(zoom, *feature);
+
+            // FIXME: This causes a linker error "mbgl::style::IdentityStops, mbgl::style::CategoricalStops
+            // referenced from auto mbgl::style::SourceFunction<std::__1::array<float, 2ul> >::evaluate(mbgl::GeometryTileFeature const&)
+            // auto mbgl::style::CompositeFunction<std::__1::array<float, 2ul> >::evaluate(mbgl::Range<mapbox::util::variant<mbgl::style::ExponentialStops<std::__1::array<float, 2ul> >
+            // in libmbgl-core.a(symbol_layout.o)
+//            ft.iconOffset = layout.get<IconOffset>().evaluate(zoom, *feature);
+
             ft.iconRotation = layout.get<IconRotate>().evaluate(zoom, *feature) * util::DEG2RAD;
         }
 

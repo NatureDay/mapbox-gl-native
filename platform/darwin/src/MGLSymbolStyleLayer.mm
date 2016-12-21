@@ -188,8 +188,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconAllowsOverlap {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconAllowOverlap() ?: self.rawLayer->getDefaultIconAllowOverlap();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconAllowOverlap() ?: self.rawLayer->getDefaultIconAllowOverlap();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -211,8 +214,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconIgnoresPlacement {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconIgnorePlacement() ?: self.rawLayer->getDefaultIconIgnorePlacement();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconIgnorePlacement() ?: self.rawLayer->getDefaultIconIgnorePlacement();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -234,8 +240,11 @@ namespace mbgl {
 - (MGLStyleValue<NSString *> *)iconImageName {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconImage() ?: self.rawLayer->getDefaultIconImage();
-    return MGLStyleValueTransformer<std::string, NSString *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconImage() ?: self.rawLayer->getDefaultIconImage();
+    //return MGLStyleValueTransformer<std::string, NSString *>().toStyleValue(propertyValue);
 }
 
 
@@ -250,15 +259,18 @@ namespace mbgl {
 - (void)setIconOffset:(MGLStyleValue<NSValue *> *)iconOffset {
     MGLAssertStyleLayerIsValid();
 
-    auto mbglValue = MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toPropertyValue(iconOffset);
+    auto mbglValue = MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toDataDrivenPropertyValue(iconOffset);
     self.rawLayer->setIconOffset(mbglValue);
 }
 
 - (MGLStyleValue<NSValue *> *)iconOffset {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconOffset() ?: self.rawLayer->getDefaultIconOffset();
-    return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconOffset() ?: self.rawLayer->getDefaultIconOffset();
+    //return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconOptional:(MGLStyleValue<NSNumber *> *)iconOptional {
@@ -271,8 +283,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)isIconOptional {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconOptional() ?: self.rawLayer->getDefaultIconOptional();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconOptional() ?: self.rawLayer->getDefaultIconOptional();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconPadding:(MGLStyleValue<NSNumber *> *)iconPadding {
@@ -285,22 +300,28 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconPadding {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconPadding() ?: self.rawLayer->getDefaultIconPadding();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconPadding() ?: self.rawLayer->getDefaultIconPadding();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconRotation:(MGLStyleValue<NSNumber *> *)iconRotation {
     MGLAssertStyleLayerIsValid();
 
-    auto mbglValue = MGLStyleValueTransformer<float, NSNumber *>().toPropertyValue(iconRotation);
+    auto mbglValue = MGLStyleValueTransformer<float, NSNumber *>().toDataDrivenPropertyValue(iconRotation);
     self.rawLayer->setIconRotate(mbglValue);
 }
 
 - (MGLStyleValue<NSNumber *> *)iconRotation {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconRotate() ?: self.rawLayer->getDefaultIconRotate();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconRotate() ?: self.rawLayer->getDefaultIconRotate();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -322,8 +343,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)iconRotationAlignment {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconRotationAlignment() ?: self.rawLayer->getDefaultIconRotationAlignment();
-    return MGLStyleValueTransformer<mbgl::style::AlignmentType, NSValue *, mbgl::style::AlignmentType, MGLIconRotationAlignment>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconRotationAlignment() ?: self.rawLayer->getDefaultIconRotationAlignment();
+    //return MGLStyleValueTransformer<mbgl::style::AlignmentType, NSValue *, mbgl::style::AlignmentType, MGLIconRotationAlignment>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setIconScale:(MGLStyleValue<NSNumber *> *)iconScale {
@@ -336,8 +360,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconScale {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconSize() ?: self.rawLayer->getDefaultIconSize();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconSize() ?: self.rawLayer->getDefaultIconSize();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -359,8 +386,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)iconTextFit {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconTextFit() ?: self.rawLayer->getDefaultIconTextFit();
-    return MGLStyleValueTransformer<mbgl::style::IconTextFitType, NSValue *, mbgl::style::IconTextFitType, MGLIconTextFit>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconTextFit() ?: self.rawLayer->getDefaultIconTextFit();
+    //return MGLStyleValueTransformer<mbgl::style::IconTextFitType, NSValue *, mbgl::style::IconTextFitType, MGLIconTextFit>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setIconTextFitPadding:(MGLStyleValue<NSValue *> *)iconTextFitPadding {
@@ -373,8 +403,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)iconTextFitPadding {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconTextFitPadding() ?: self.rawLayer->getDefaultIconTextFitPadding();
-    return MGLStyleValueTransformer<std::array<float, 4>, NSValue *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconTextFitPadding() ?: self.rawLayer->getDefaultIconTextFitPadding();
+    //return MGLStyleValueTransformer<std::array<float, 4>, NSValue *>().toStyleValue(propertyValue);
 }
 
 - (void)setKeepsIconUpright:(MGLStyleValue<NSNumber *> *)keepsIconUpright {
@@ -387,8 +420,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)keepsIconUpright {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconKeepUpright() ?: self.rawLayer->getDefaultIconKeepUpright();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getIconKeepUpright() ?: self.rawLayer->getDefaultIconKeepUpright();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -410,8 +446,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)keepsTextUpright {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextKeepUpright() ?: self.rawLayer->getDefaultTextKeepUpright();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextKeepUpright() ?: self.rawLayer->getDefaultTextKeepUpright();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -433,8 +472,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)maximumTextAngle {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextMaxAngle() ?: self.rawLayer->getDefaultTextMaxAngle();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextMaxAngle() ?: self.rawLayer->getDefaultTextMaxAngle();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -456,8 +498,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)maximumTextWidth {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextMaxWidth() ?: self.rawLayer->getDefaultTextMaxWidth();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextMaxWidth() ?: self.rawLayer->getDefaultTextMaxWidth();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -479,8 +524,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)symbolAvoidsEdges {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getSymbolAvoidEdges() ?: self.rawLayer->getDefaultSymbolAvoidEdges();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getSymbolAvoidEdges() ?: self.rawLayer->getDefaultSymbolAvoidEdges();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -502,8 +550,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)symbolPlacement {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getSymbolPlacement() ?: self.rawLayer->getDefaultSymbolPlacement();
-    return MGLStyleValueTransformer<mbgl::style::SymbolPlacementType, NSValue *, mbgl::style::SymbolPlacementType, MGLSymbolPlacement>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getSymbolPlacement() ?: self.rawLayer->getDefaultSymbolPlacement();
+    //return MGLStyleValueTransformer<mbgl::style::SymbolPlacementType, NSValue *, mbgl::style::SymbolPlacementType, MGLSymbolPlacement>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setSymbolSpacing:(MGLStyleValue<NSNumber *> *)symbolSpacing {
@@ -516,8 +567,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)symbolSpacing {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getSymbolSpacing() ?: self.rawLayer->getDefaultSymbolSpacing();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getSymbolSpacing() ?: self.rawLayer->getDefaultSymbolSpacing();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextAllowsOverlap:(MGLStyleValue<NSNumber *> *)textAllowsOverlap {
@@ -530,8 +584,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textAllowsOverlap {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextAllowOverlap() ?: self.rawLayer->getDefaultTextAllowOverlap();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextAllowOverlap() ?: self.rawLayer->getDefaultTextAllowOverlap();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -553,8 +610,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textAnchor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextAnchor() ?: self.rawLayer->getDefaultTextAnchor();
-    return MGLStyleValueTransformer<mbgl::style::TextAnchorType, NSValue *, mbgl::style::TextAnchorType, MGLTextAnchor>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextAnchor() ?: self.rawLayer->getDefaultTextAnchor();
+    //return MGLStyleValueTransformer<mbgl::style::TextAnchorType, NSValue *, mbgl::style::TextAnchorType, MGLTextAnchor>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setTextField:(MGLStyleValue<NSString *> *)textField {
@@ -567,8 +627,11 @@ namespace mbgl {
 - (MGLStyleValue<NSString *> *)textField {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextField() ?: self.rawLayer->getDefaultTextField();
-    return MGLStyleValueTransformer<std::string, NSString *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextField() ?: self.rawLayer->getDefaultTextField();
+    //return MGLStyleValueTransformer<std::string, NSString *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextFont:(MGLStyleValue<NSArray<NSString *> *> *)textFont {
@@ -581,8 +644,11 @@ namespace mbgl {
 - (MGLStyleValue<NSArray<NSString *> *> *)textFont {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextFont() ?: self.rawLayer->getDefaultTextFont();
-    return MGLStyleValueTransformer<std::vector<std::string>, NSArray<NSString *> *, std::string>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextFont() ?: self.rawLayer->getDefaultTextFont();
+    //return MGLStyleValueTransformer<std::vector<std::string>, NSArray<NSString *> *, std::string>().toStyleValue(propertyValue);
 }
 
 - (void)setTextIgnoresPlacement:(MGLStyleValue<NSNumber *> *)textIgnoresPlacement {
@@ -595,8 +661,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textIgnoresPlacement {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextIgnorePlacement() ?: self.rawLayer->getDefaultTextIgnorePlacement();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextIgnorePlacement() ?: self.rawLayer->getDefaultTextIgnorePlacement();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -618,8 +687,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textJustification {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextJustify() ?: self.rawLayer->getDefaultTextJustify();
-    return MGLStyleValueTransformer<mbgl::style::TextJustifyType, NSValue *, mbgl::style::TextJustifyType, MGLTextJustification>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextJustify() ?: self.rawLayer->getDefaultTextJustify();
+    //return MGLStyleValueTransformer<mbgl::style::TextJustifyType, NSValue *, mbgl::style::TextJustifyType, MGLTextJustification>().toEnumStyleValue(propertyValue);
 }
 
 
@@ -641,8 +713,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textLetterSpacing {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextLetterSpacing() ?: self.rawLayer->getDefaultTextLetterSpacing();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextLetterSpacing() ?: self.rawLayer->getDefaultTextLetterSpacing();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextLineHeight:(MGLStyleValue<NSNumber *> *)textLineHeight {
@@ -655,8 +730,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textLineHeight {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextLineHeight() ?: self.rawLayer->getDefaultTextLineHeight();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextLineHeight() ?: self.rawLayer->getDefaultTextLineHeight();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextOffset:(MGLStyleValue<NSValue *> *)textOffset {
@@ -669,8 +747,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textOffset {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextOffset() ?: self.rawLayer->getDefaultTextOffset();
-    return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextOffset() ?: self.rawLayer->getDefaultTextOffset();
+    //return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextOptional:(MGLStyleValue<NSNumber *> *)textOptional {
@@ -683,8 +764,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)isTextOptional {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextOptional() ?: self.rawLayer->getDefaultTextOptional();
-    return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextOptional() ?: self.rawLayer->getDefaultTextOptional();
+    //return MGLStyleValueTransformer<bool, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextPadding:(MGLStyleValue<NSNumber *> *)textPadding {
@@ -697,8 +781,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textPadding {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextPadding() ?: self.rawLayer->getDefaultTextPadding();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextPadding() ?: self.rawLayer->getDefaultTextPadding();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextPitchAlignment:(MGLStyleValue<NSValue *> *)textPitchAlignment {
@@ -711,8 +798,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textPitchAlignment {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextPitchAlignment() ?: self.rawLayer->getDefaultTextPitchAlignment();
-    return MGLStyleValueTransformer<mbgl::style::AlignmentType, NSValue *, mbgl::style::AlignmentType, MGLTextPitchAlignment>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextPitchAlignment() ?: self.rawLayer->getDefaultTextPitchAlignment();
+    //return MGLStyleValueTransformer<mbgl::style::AlignmentType, NSValue *, mbgl::style::AlignmentType, MGLTextPitchAlignment>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setTextRotation:(MGLStyleValue<NSNumber *> *)textRotation {
@@ -725,8 +815,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textRotation {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextRotate() ?: self.rawLayer->getDefaultTextRotate();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextRotate() ?: self.rawLayer->getDefaultTextRotate();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 
@@ -748,8 +841,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textRotationAlignment {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextRotationAlignment() ?: self.rawLayer->getDefaultTextRotationAlignment();
-    return MGLStyleValueTransformer<mbgl::style::AlignmentType, NSValue *, mbgl::style::AlignmentType, MGLTextRotationAlignment>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextRotationAlignment() ?: self.rawLayer->getDefaultTextRotationAlignment();
+    //return MGLStyleValueTransformer<mbgl::style::AlignmentType, NSValue *, mbgl::style::AlignmentType, MGLTextRotationAlignment>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setTextSize:(MGLStyleValue<NSNumber *> *)textSize {
@@ -762,8 +858,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textSize {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextSize() ?: self.rawLayer->getDefaultTextSize();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextSize() ?: self.rawLayer->getDefaultTextSize();
+    //return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextTransform:(MGLStyleValue<NSValue *> *)textTransform {
@@ -776,8 +875,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textTransform {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextTransform() ?: self.rawLayer->getDefaultTextTransform();
-    return MGLStyleValueTransformer<mbgl::style::TextTransformType, NSValue *, mbgl::style::TextTransformType, MGLTextTransform>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    //auto propertyValue = self.rawLayer->getTextTransform() ?: self.rawLayer->getDefaultTextTransform();
+    //return MGLStyleValueTransformer<mbgl::style::TextTransformType, NSValue *, mbgl::style::TextTransformType, MGLTextTransform>().toEnumStyleValue(propertyValue);
 }
 
 #pragma mark - Accessing the Paint Attributes
@@ -792,8 +894,11 @@ namespace mbgl {
 - (MGLStyleValue<MGLColor *> *)iconColor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconColor() ?: self.rawLayer->getDefaultIconColor();
-    return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconColor() ?: self.rawLayer->getDefaultIconColor();
+    // return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconHaloBlur:(MGLStyleValue<NSNumber *> *)iconHaloBlur {
@@ -806,8 +911,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconHaloBlur {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconHaloBlur() ?: self.rawLayer->getDefaultIconHaloBlur();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconHaloBlur() ?: self.rawLayer->getDefaultIconHaloBlur();
+    // return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconHaloColor:(MGLStyleValue<MGLColor *> *)iconHaloColor {
@@ -820,8 +928,11 @@ namespace mbgl {
 - (MGLStyleValue<MGLColor *> *)iconHaloColor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconHaloColor() ?: self.rawLayer->getDefaultIconHaloColor();
-    return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconHaloColor() ?: self.rawLayer->getDefaultIconHaloColor();
+    // return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconHaloWidth:(MGLStyleValue<NSNumber *> *)iconHaloWidth {
@@ -834,8 +945,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconHaloWidth {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconHaloWidth() ?: self.rawLayer->getDefaultIconHaloWidth();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconHaloWidth() ?: self.rawLayer->getDefaultIconHaloWidth();
+    // return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconOpacity:(MGLStyleValue<NSNumber *> *)iconOpacity {
@@ -848,8 +962,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)iconOpacity {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconOpacity() ?: self.rawLayer->getDefaultIconOpacity();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconOpacity() ?: self.rawLayer->getDefaultIconOpacity();
+    // return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconTranslate:(MGLStyleValue<NSValue *> *)iconTranslate {
@@ -862,8 +979,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)iconTranslate {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconTranslate() ?: self.rawLayer->getDefaultIconTranslate();
-    return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconTranslate() ?: self.rawLayer->getDefaultIconTranslate();
+    // return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
 }
 
 - (void)setIconTranslateAnchor:(MGLStyleValue<NSValue *> *)iconTranslateAnchor {
@@ -871,13 +991,17 @@ namespace mbgl {
 
     auto mbglValue = MGLStyleValueTransformer<mbgl::style::TranslateAnchorType, NSValue *, mbgl::style::TranslateAnchorType, MGLIconTranslateAnchor>().toEnumPropertyValue(iconTranslateAnchor);
     self.rawLayer->setIconTranslateAnchor(mbglValue);
+    self.rawLayer->setIconTranslateAnchor(mbglValue);
 }
 
 - (MGLStyleValue<NSValue *> *)iconTranslateAnchor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getIconTranslateAnchor() ?: self.rawLayer->getDefaultIconTranslateAnchor();
-    return MGLStyleValueTransformer<mbgl::style::TranslateAnchorType, NSValue *, mbgl::style::TranslateAnchorType, MGLIconTranslateAnchor>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getIconTranslateAnchor() ?: self.rawLayer->getDefaultIconTranslateAnchor();
+    // return MGLStyleValueTransformer<mbgl::style::TranslateAnchorType, NSValue *, mbgl::style::TranslateAnchorType, MGLIconTranslateAnchor>().toEnumStyleValue(propertyValue);
 }
 
 - (void)setTextColor:(MGLStyleValue<MGLColor *> *)textColor {
@@ -890,8 +1014,11 @@ namespace mbgl {
 - (MGLStyleValue<MGLColor *> *)textColor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextColor() ?: self.rawLayer->getDefaultTextColor();
-    return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextColor() ?: self.rawLayer->getDefaultTextColor();
+    // return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextHaloBlur:(MGLStyleValue<NSNumber *> *)textHaloBlur {
@@ -904,8 +1031,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textHaloBlur {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextHaloBlur() ?: self.rawLayer->getDefaultTextHaloBlur();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextHaloBlur() ?: self.rawLayer->getDefaultTextHaloBlur();
+    // return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextHaloColor:(MGLStyleValue<MGLColor *> *)textHaloColor {
@@ -918,8 +1048,11 @@ namespace mbgl {
 - (MGLStyleValue<MGLColor *> *)textHaloColor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextHaloColor() ?: self.rawLayer->getDefaultTextHaloColor();
-    return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextHaloColor() ?: self.rawLayer->getDefaultTextHaloColor();
+    // return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextHaloWidth:(MGLStyleValue<NSNumber *> *)textHaloWidth {
@@ -932,8 +1065,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textHaloWidth {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextHaloWidth() ?: self.rawLayer->getDefaultTextHaloWidth();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextHaloWidth() ?: self.rawLayer->getDefaultTextHaloWidth();
+    // return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextOpacity:(MGLStyleValue<NSNumber *> *)textOpacity {
@@ -946,8 +1082,11 @@ namespace mbgl {
 - (MGLStyleValue<NSNumber *> *)textOpacity {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextOpacity() ?: self.rawLayer->getDefaultTextOpacity();
-    return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextOpacity() ?: self.rawLayer->getDefaultTextOpacity();
+    // return MGLStyleValueTransformer<float, NSNumber *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextTranslate:(MGLStyleValue<NSValue *> *)textTranslate {
@@ -960,8 +1099,11 @@ namespace mbgl {
 - (MGLStyleValue<NSValue *> *)textTranslate {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextTranslate() ?: self.rawLayer->getDefaultTextTranslate();
-    return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextTranslate() ?: self.rawLayer->getDefaultTextTranslate();
+    // return MGLStyleValueTransformer<std::array<float, 2>, NSValue *>().toStyleValue(propertyValue);
 }
 
 - (void)setTextTranslateAnchor:(MGLStyleValue<NSValue *> *)textTranslateAnchor {
@@ -969,13 +1111,17 @@ namespace mbgl {
 
     auto mbglValue = MGLStyleValueTransformer<mbgl::style::TranslateAnchorType, NSValue *, mbgl::style::TranslateAnchorType, MGLTextTranslateAnchor>().toEnumPropertyValue(textTranslateAnchor);
     self.rawLayer->setTextTranslateAnchor(mbglValue);
+    self.rawLayer->setTextTranslateAnchor(mbglValue);
 }
 
 - (MGLStyleValue<NSValue *> *)textTranslateAnchor {
     MGLAssertStyleLayerIsValid();
 
-    auto propertyValue = self.rawLayer->getTextTranslateAnchor() ?: self.rawLayer->getDefaultTextTranslateAnchor();
-    return MGLStyleValueTransformer<mbgl::style::TranslateAnchorType, NSValue *, mbgl::style::TranslateAnchorType, MGLTextTranslateAnchor>().toEnumStyleValue(propertyValue);
+    // TODO: Property conversion
+    return nil;
+
+    // auto propertyValue = self.rawLayer->getTextTranslateAnchor() ?: self.rawLayer->getDefaultTextTranslateAnchor();
+    // return MGLStyleValueTransformer<mbgl::style::TranslateAnchorType, NSValue *, mbgl::style::TranslateAnchorType, MGLTextTranslateAnchor>().toEnumStyleValue(propertyValue);
 }
 
 
