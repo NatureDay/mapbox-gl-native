@@ -155,7 +155,7 @@ public class MarkerViewManager implements MapView.OnMapChangedListener {
    * {@link MarkerView} will be animated to visible using alpha animation.
    * </p>
    */
-  public void update() {
+  public void updateMarkerViewsPosition() {
     for (final MarkerView marker : markerViewMap.keySet()) {
       final View convertView = markerViewMap.get(marker);
       if (convertView != null) {
@@ -421,10 +421,11 @@ public class MarkerViewManager implements MapView.OnMapChangedListener {
    * once each 250 ms.
    * </p>
    */
-  public void scheduleViewMarkerInvalidation() {
+  public void update() {
     if (enabled) {
       long currentTime = SystemClock.elapsedRealtime();
       if (currentTime < updateTime) {
+        updateMarkerViewsPosition();
         return;
       }
       invalidateViewMarkersInVisibleRegion();
@@ -509,7 +510,7 @@ public class MarkerViewManager implements MapView.OnMapChangedListener {
 
     // trigger update to make newly added ViewMarker visible,
     // these would only be updated when the map is moved.
-    update();
+    updateMarkerViewsPosition();
   }
 
   /**

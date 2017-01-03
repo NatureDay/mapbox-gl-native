@@ -66,7 +66,7 @@ class AnnotationManager {
   }
 
   void update() {
-    markerViewManager.scheduleViewMarkerInvalidation();
+    markerViewManager.update();
     infoWindowManager.update();
   }
 
