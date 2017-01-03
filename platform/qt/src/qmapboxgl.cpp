@@ -538,11 +538,21 @@ void QMapboxGL::setZoom(double zoom_)
     d_ptr->mapObj->setZoom(zoom_, d_ptr->margins);
 }
 
+/*!
+    Returns the minimum zoom level allowed for the map.
+
+    \sa maximumZoom()
+*/
 double QMapboxGL::minimumZoom() const
 {
     return d_ptr->mapObj->getMinZoom();
 }
 
+/*!
+    Returns the maximum zoom level allowed for the map.
+
+    \sa maximumZoom()
+*/
 double QMapboxGL::maximumZoom() const
 {
     return d_ptr->mapObj->getMaxZoom();
@@ -657,19 +667,30 @@ void QMapboxGL::setPitch(double pitch_)
     d_ptr->mapObj->setPitch(pitch_);
 }
 
+/*!
+    Returns the North Orientation mode.
+*/
 QMapboxGL::NorthOrientation QMapboxGL::northOrientation() const
 {
     return static_cast<QMapboxGL::NorthOrientation>(d_ptr->mapObj->getNorthOrientation());
 }
 
+/*!
+    Sets the North Orientation mode to \a orientation.
+*/
 void QMapboxGL::setNorthOrientation(NorthOrientation orientation)
 {
     d_ptr->mapObj->setNorthOrientation(static_cast<mbgl::NorthOrientation>(orientation));
 }
 
-void QMapboxGL::setGestureInProgress(bool inProgress)
+/*!
+    Tells the map rendering engine that there is currently a gesture in \a progress. This
+    affects how the map renders labels, as it will use different texture filters depending
+    if a gesture is ongoing.
+*/
+void QMapboxGL::setGestureInProgress(bool progress)
 {
-    d_ptr->mapObj->setGestureInProgress(inProgress);
+    d_ptr->mapObj->setGestureInProgress(progress);
 }
 
 /*!
@@ -735,6 +756,14 @@ QStringList QMapboxGL::getClasses() const
     return classNames;
 }
 
+/*!
+    Sets the \a duration and \a delay of style class transitions. An animation
+    morphing a style property value to another value is performed when a new
+    class is set.
+
+    \deprecated
+    \sa addClass()
+*/
 void QMapboxGL::setTransitionOptions(qint64 duration, qint64 delay) {
     static auto convert = [](qint64 value) -> mbgl::optional<mbgl::Duration> {
         return std::chrono::duration_cast<mbgl::Duration>(mbgl::Milliseconds(value));
@@ -749,26 +778,51 @@ mbgl::Annotation fromPointAnnotation(const PointAnnotation &pointAnnotation) {
     return mbgl::SymbolAnnotation { mbgl::Point<double> { coordinate.second, coordinate.first }, icon.toStdString() };
 }
 
-AnnotationID QMapboxGL::addPointAnnotation(const PointAnnotation &pointAnnotation)
+/*!
+    Adds a \a point annotation to the map.
+
+    Returns the unique identifier for the new annotation.
+
+    \sa addAnnotationIcon()
+*/
+AnnotationID QMapboxGL::addPointAnnotation(const PointAnnotation &point)
 {
-    return d_ptr->mapObj->addAnnotation(fromPointAnnotation(pointAnnotation));
+    return d_ptr->mapObj->addAnnotation(fromPointAnnotation(point));
 }
 
-void QMapboxGL::updatePointAnnotation(AnnotationID id, const PointAnnotation &pointAnnotation)
+/*!
+    Updates an existing \a point annotation referred by \a id.
+
+    \sa addAnnotationIcon()
+*/
+void QMapboxGL::updatePointAnnotation(AnnotationID id, const PointAnnotation &point)
 {
-    d_ptr->mapObj->updateAnnotation(id, fromPointAnnotation(pointAnnotation));
+    d_ptr->mapObj->updateAnnotation(id, fromPointAnnotation(point));
 }
 
-AnnotationID QMapboxGL::addShapeAnnotation(const ShapeAnnotation &shapeAnnotation)
+/*!
+    Adds a \a shape annotation to the map.
+
+    Returns the unique identifier for the new annotation.
+*/
+AnnotationID QMapboxGL::addShapeAnnotation(const ShapeAnnotation &shape)
 {
-    return d_ptr->mapObj->addAnnotation(fromQMapboxGLShapeAnnotation(shapeAnnotation));
+    return d_ptr->mapObj->addAnnotation(fromQMapboxGLShapeAnnotation(shape));
 }
 
-void QMapboxGL::removeAnnotation(AnnotationID annotationID)
+/*!
+    Removes an existing annotation referred by \a id.
+*/
+void QMapboxGL::removeAnnotation(AnnotationID id)
 {
-    d_ptr->mapObj->removeAnnotation(annotationID);
+    d_ptr->mapObj->removeAnnotation(id);
 }
 
+/*!
+    Sets a layout \a property \a value to an existing \a layer_. The \a property string can be any
+    as defined by \l {https://www.mapbox.com/mapbox-gl-style-spec/} {the vector tiles specification}
+    for layout properties.
+*/
 void QMapboxGL::setLayoutProperty(const QString& layer_, const QString& property, const QVariant& value)
 {
     using namespace mbgl::style;
@@ -785,6 +839,21 @@ void QMapboxGL::setLayoutProperty(const QString& layer_, const QString& property
     }
 }
 
+/*!
+    Sets a paint \a property \a value to an existing \a layer_. The \a property string can be any
+    as defined by \l {https://www.mapbox.com/mapbox-gl-style-spec/} {the vector tiles specification}
+    for paint properties.
+
+    The argument \a klass_ is deprecated and is used for defining the style class for the paint
+    property.
+
+    For paint properties that take a color as \a value, such as \b "fill-color", a string such as
+    \b "blue" can be passed or a QColor.
+
+    \code
+        m_map->setPaintProperty("route", "line-color", QColor("blue"));
+    \endcode
+*/
 void QMapboxGL::setPaintProperty(const QString& layer_, const QString& property, const QVariant& value, const QString& klass_)
 {
     using namespace mbgl::style;
@@ -806,20 +875,37 @@ void QMapboxGL::setPaintProperty(const QString& layer_, const QString& property,
     }
 }
 
+/*!
+    Returns true when the map is completely rendered, false otherwise. A partially
+    rendered map ranges from nothing rendered at all to only labels missing.
+*/
 bool QMapboxGL::isFullyLoaded() const
 {
     return d_ptr->mapObj->isFullyLoaded();
 }
 
+/*!
+    Pan the map by \a offset in pixels.
+*/
 void QMapboxGL::moveBy(const QPointF &offset)
 {
     d_ptr->mapObj->moveBy(mbgl::ScreenCoordinate { offset.x(), offset.y() });
 }
 
+/*!
+    Scale the map by \a scale_ in the direction of the \a center. This function
+    can be used for implementing a pinch gesture.
+*/
 void QMapboxGL::scaleBy(double scale_, const QPointF &center) {
     d_ptr->mapObj->scaleBy(scale_, mbgl::ScreenCoordinate { center.x(), center.y() });
 }
 
+/*!
+    Rotate the map from the \a first screen coordinate to the \a second screen coordinate.
+    This method can be used for implementing rotating the map by clicking and dragging,
+    being \a first the cursor coordinate at the last frame and \a second the cursor coordinate
+    at the current frame.
+*/
 void QMapboxGL::rotateBy(const QPointF &first, const QPointF &second)
 {
     d_ptr->mapObj->rotateBy(
@@ -827,6 +913,9 @@ void QMapboxGL::rotateBy(const QPointF &first, const QPointF &second)
             mbgl::ScreenCoordinate { second.x(), second.y() });
 }
 
+/*!
+    Resize the map to \a size and scale to fit at \a framebufferSize.
+*/
 void QMapboxGL::resize(const QSize& size, const QSize& framebufferSize)
 {
     if (d_ptr->size == size && d_ptr->fbSize == framebufferSize) return;
@@ -854,6 +943,13 @@ void QMapboxGL::addAnnotationIcon(const QString &name, const QImage &icon)
     d_ptr->mapObj->addAnnotationIcon(name.toStdString(), toSpriteImage(icon));
 }
 
+/*!
+    Returns the offset in pixels for \a coordinate_. The origin pixel coordinate is
+    located at the top left corner of the map view.
+
+    It will work for any coordinate, even if the coordinate is not currently visible
+    on the screen.
+*/
 QPointF QMapboxGL::pixelForCoordinate(const Coordinate &coordinate_) const
 {
     const mbgl::ScreenCoordinate pixel =
@@ -862,6 +958,9 @@ QPointF QMapboxGL::pixelForCoordinate(const Coordinate &coordinate_) const
     return QPointF(pixel.x, pixel.y);
 }
 
+/*!
+    Returns the geographic coordinate for the \a pixel coordinate.
+*/
 Coordinate QMapboxGL::coordinateForPixel(const QPointF &pixel) const
 {
     const mbgl::LatLng latLng =
@@ -870,6 +969,10 @@ Coordinate QMapboxGL::coordinateForPixel(const QPointF &pixel) const
     return Coordinate(latLng.latitude, latLng.longitude);
 }
 
+/*!
+    Returns the coordinate and zoom combination needed in order to make the coordinate
+    bounding box \a sw and \a ne visible.
+*/
 CoordinateZoom QMapboxGL::coordinateZoomForBounds(const Coordinate &sw, Coordinate &ne) const
 {
     auto bounds = mbgl::LatLngBounds::hull(mbgl::LatLng { sw.first, sw.second }, mbgl::LatLng { ne.first, ne.second });
@@ -878,6 +981,10 @@ CoordinateZoom QMapboxGL::coordinateZoomForBounds(const Coordinate &sw, Coordina
     return {{ (*camera.center).latitude, (*camera.center).longitude }, *camera.zoom };
 }
 
+/*!
+    Returns the coordinate and zoom combination needed in order to make the coordinate
+    bounding box \a sw and \a ne visible taking into account \a newBearing and \a newPitch.
+*/
 CoordinateZoom QMapboxGL::coordinateZoomForBounds(const Coordinate &sw, Coordinate &ne,
     double newBearing, double newPitch)
 {
@@ -925,12 +1032,30 @@ QMargins QMapboxGL::margins() const
     );
 }
 
-void QMapboxGL::addSource(const QString &sourceID, const QVariantMap &params)
+/*!
+    Adds a data source \a id to the map as specified by \l
+    {https://www.mapbox.com/mapbox-gl-style-spec/#root-sources}{the vector tiles specification} with
+    \a params.
+
+    A data source starting with \b ":" stands for a file tracked by the Qt resource system. In this
+    case, a new GeoJSON source could be added like:
+
+    \code
+        QFile geojson(":source1.geojson");
+        geojson.open(QIODevice::ReadOnly);
+
+        QVariantMap routeSource;
+        routeSource["type"] = "geojson";
+        routeSource["data"] = geojson.readAll();
+        map->addSource("routeSource", routeSource);
+    \endcode
+*/
+void QMapboxGL::addSource(const QString &id, const QVariantMap &params)
 {
     using namespace mbgl::style;
     using namespace mbgl::style::conversion;
 
-    Result<std::unique_ptr<Source>> source = convert<std::unique_ptr<Source>>(QVariant(params), sourceID.toStdString());
+    Result<std::unique_ptr<Source>> source = convert<std::unique_ptr<Source>>(QVariant(params), id.toStdString());
     if (!source) {
         qWarning() << "Unable to add source:" << source.error().message.c_str();
         return;
@@ -939,14 +1064,20 @@ void QMapboxGL::addSource(const QString &sourceID, const QVariantMap &params)
     d_ptr->mapObj->addSource(std::move(*source));
 }
 
-void QMapboxGL::updateSource(const QString &sourceID, const QVariantMap &params)
+/*!
+    Updates the data source \a id with new \a params.
+
+    If the data source does not exist, it will be added like in addSource(). Only
+    GeoJSON data sources can be updated.
+*/
+void QMapboxGL::updateSource(const QString &id, const QVariantMap &params)
 {
     using namespace mbgl::style;
     using namespace mbgl::style::conversion;
 
-    auto source = d_ptr->mapObj->getSource(sourceID.toStdString());
+    auto source = d_ptr->mapObj->getSource(id.toStdString());
     if (!source) {
-        addSource(sourceID, params);
+        addSource(id, params);
         return;
     }
 
@@ -964,15 +1095,30 @@ void QMapboxGL::updateSource(const QString &sourceID, const QVariantMap &params)
     }
 }
 
-void QMapboxGL::removeSource(const QString& sourceID)
+/*!
+    Removes the source \a id.
+
+    Has no effect if the source does not exist.
+*/
+void QMapboxGL::removeSource(const QString& id)
 {
-    auto sourceIDStdString = sourceID.toStdString();
+    auto sourceIDStdString = id.toStdString();
 
     if (d_ptr->mapObj->getSource(sourceIDStdString)) {
         d_ptr->mapObj->removeSource(sourceIDStdString);
     }
 }
 
+/*!
+    Adds a custom layer \a id with the initialization function \a initFn, the
+    render function \a renderFn and the deinitialization function \a deinitFn with
+    the user data \a context_ before the existing layer \a before.
+
+    This is used for delegate the rendering to the user of this API and is not
+    officially supported. Use at your own risk.
+
+    \deprecated
+*/
 void QMapboxGL::addCustomLayer(const QString &id,
         QMapbox::CustomLayerInitializeFunction initFn,
         QMapbox::CustomLayerRenderFunction renderFn,
@@ -991,6 +1137,23 @@ void QMapboxGL::addCustomLayer(const QString &id,
             before ? mbgl::optional<std::string>(before) : mbgl::optional<std::string>());
 }
 
+/*!
+    Adds a style layer to the map as specified by \l
+    {https://www.mapbox.com/mapbox-gl-style-spec/#root-layers}{the vector tiles specification} with
+    \a params.
+
+    This example shows how to add a layer that will be used to show a route line on the map. Note
+    that nothing will be drawn until we set paint properties using setPaintProperty().
+
+    \code
+        QVariantMap route;
+        route["id"] = "route";
+        route["type"] = "line";
+        route["source"] = "routeSource";
+
+        map->addLayer(route);
+    \endcode
+*/
 void QMapboxGL::addLayer(const QVariantMap &params)
 {
     using namespace mbgl::style;
@@ -1005,21 +1168,33 @@ void QMapboxGL::addLayer(const QVariantMap &params)
     d_ptr->mapObj->addLayer(std::move(*layer));
 }
 
+/*!
+    Removes the layer \a id.
+*/
 void QMapboxGL::removeLayer(const QString& id)
 {
     d_ptr->mapObj->removeLayer(id.toStdString());
 }
 
-void QMapboxGL::addImage(const QString &name, const QImage &sprite)
-{
-    if (sprite.isNull()) return;
+/*!
+    Adds the \a image with the identifier \a id that can be used
+    later by a symbol layer.
 
-    d_ptr->mapObj->addImage(name.toStdString(), toSpriteImage(sprite));
+    \sa addLayer()
+*/
+void QMapboxGL::addImage(const QString &id, const QImage &image)
+{
+    if (image.isNull()) return;
+
+    d_ptr->mapObj->addImage(id.toStdString(), toSpriteImage(image));
 }
 
-void QMapboxGL::removeImage(const QString &name)
+/*!
+    Removes the image \a id.
+*/
+void QMapboxGL::removeImage(const QString &id)
 {
-    d_ptr->mapObj->removeImage(name.toStdString());
+    d_ptr->mapObj->removeImage(id.toStdString());
 }
 
 void QMapboxGL::setFilter(const QString& layer_, const QVariant& filter_)
