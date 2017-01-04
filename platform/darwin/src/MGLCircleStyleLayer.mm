@@ -151,11 +151,13 @@ namespace mbgl {
 - (MGLStyleValue<MGLColor *> *)circleColor {
     MGLAssertStyleLayerIsValid();
 
-    // TODO: Property conversion
-    return nil;
+    auto propertyValue = self.rawLayer->getCircleColor();
 
-    // auto propertyValue = self.rawLayer->getCircleColor() ?: self.rawLayer->getDefaultCircleColor();
-    // return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toStyleValue(propertyValue);
+    if (propertyValue.isUndefined()) {
+        return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toDataDrivenStyleValue(self.rawLayer->getDefaultCircleColor());
+    }
+
+    return MGLStyleValueTransformer<mbgl::Color, MGLColor *>().toDataDrivenStyleValue(propertyValue);
 }
 
 - (void)setCircleOpacity:(MGLStyleValue<NSNumber *> *)circleOpacity {

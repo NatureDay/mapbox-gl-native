@@ -23,7 +23,7 @@ public:
     
     MGLStyleValue<ObjCType> *toStyleValue(const mbgl::style::PropertyValue<MBGLType> &mbglValue) {
         if (mbglValue.isConstant()) {
-            return toStyleConstantValue(mbglValue.asConstant());
+            //return toStyleConstantValue(mbglValue.asConstant());
         }
         // TODO: Translate from function variants
 //        else if (mbglValue.isFunction()) {
@@ -32,6 +32,25 @@ public:
         else {
             return nil;
         }
+    }
+
+    MGLStyleValue<ObjCType> *toDataDrivenStyleValue(const mbgl::style::DataDrivenPropertyValue<MBGLType> &mbglValue) {
+        if (mbglValue.isConstant()) {
+            return toStyleConstantValue(mbglValue.asConstant());
+        } else if (mbglValue.isSourceFunction()) {
+            auto sourceFunction = mbglValue.asSourceFunction();
+            if (sourceFunction.hasExponentialStops()) {
+                return toStyleSourceExponentialFunction(sourceFunction);
+            } else if (sourceFunction.hasIntervalStops()) {
+                return toStyleSourceIntervalFunction(sourceFunction);
+            } else if (sourceFunction.hasCategoricalStops()) {
+                return toStyleSourceCategoricalFunction(sourceFunction);
+            } else if (sourceFunction.hasIdentityStops()) {
+                return toStyleSourceIdentityFunction(sourceFunction);
+            }
+            return nil;
+        }
+        return [MGLStyleSourceExponentialFunction functionWithAttributeName:@"" exponentialStops:@{}];
     }
 
     template <typename MBGLEnum = MBGLType,
@@ -65,22 +84,6 @@ public:
             id mglValue = [(MGLStyleConstantValue<ObjCType> *)value rawValue];
             getMBGLValue(mglValue, mbglValue);
             return mbglValue;
-        }
-        else if ([value isKindOfClass:[MGLStyleFunction class]]) {
-            MGLStyleFunction<ObjCType> *function = (MGLStyleFunction<ObjCType> *)value;
-
-            // TODO: Create correct function
-            //            __block std::vector<std::pair<float, MBGLType>> mbglStops;
-            //            [function.stops enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull zoomKey, MGLStyleValue<ObjCType> * _Nonnull stopValue, BOOL * _Nonnull stop) {
-            //                NSCAssert([stopValue isKindOfClass:[MGLStyleValue class]], @"Stops should be MGLStyleValues");
-            //                auto mbglStopValue = toPropertyValue(stopValue);
-            //                NSCAssert(mbglStopValue.isConstant(), @"Stops must be constant");
-            //                mbglStops.emplace_back(zoomKey.floatValue, mbglStopValue.asConstant());
-            //            }];
-            //            return mbgl::style::Function<MBGLType>({{mbglStops}}, function.base);
-
-            // temp
-            return {};
         } else if (value) {
             [NSException raise:@"MGLAbstractClassException" format:
              @"The style value %@ cannot be applied to the style. "
@@ -261,18 +264,6 @@ public:
             MBGLEnum mbglValue;
             getMBGLValue([(MGLStyleConstantValue<ObjCType> *)value rawValue], mbglValue);
             return mbglValue;
-        } else if ([value isKindOfClass:[MGLStyleFunction class]]) {
-            MGLStyleFunction<NSValue *> *function = (MGLStyleFunction<NSValue *> *)value;
-            __block std::vector<std::pair<float, MBGLEnum>> mbglStops;
-            [function.stops enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull zoomKey, MGLStyleValue<NSValue *> * _Nonnull stopValue, BOOL * _Nonnull stop) {
-                NSCAssert([stopValue isKindOfClass:[MGLStyleValue class]], @"Stops should be MGLStyleValues");
-                auto mbglStopValue = toEnumPropertyValue(stopValue);
-                NSCAssert(mbglStopValue.isConstant(), @"Stops must be constant");
-                mbglStops.emplace_back(zoomKey.floatValue, mbglStopValue.asConstant());
-            }];
-            // TODO: Create property enum function
-//            return mbgl::style::Function<MBGLEnum>({{mbglStops}}, function.base);
-            return {};
         } else if (value) {
             [NSException raise:@"MGLAbstractClassException" format:
              @"The style value %@ cannot be applied to the style. "
@@ -284,18 +275,57 @@ public:
         }
     }
 
-
-
-
-
 private: // MBGL -> MGL
 
-//    MGLStyleConstantValue<ObjCType> *toStyleConstantValue(const MBGLType mbglValue) {
-//        auto rawValue = toMGLRawStyleValue(mbglValue);
-//        return [MGLStyleConstantValue<ObjCType> valueWithRawValue:rawValue];
-//    }
+    MGLStyleConstantValue<ObjCType> *toStyleConstantValue(const MBGLType mbglValue) {
+        auto rawValue = toMGLRawStyleValue(mbglValue);
+        return [MGLStyleConstantValue<ObjCType> valueWithRawValue:rawValue];
+    }
 
-    // TODO: Translate from function variants
+    MGLStyleSourceExponentialFunction<ObjCType> *toStyleSourceExponentialFunction(const mbgl::style::SourceFunction<MBGLType> &mbglFunction) {
+        const auto &mbglStops = mbglFunction.getExponentialStops();
+        NSMutableDictionary *stops = [NSMutableDictionary dictionaryWithCapacity:mbglStops.stops.size()];
+        for (const auto &mbglStop : mbglStops.stops) {
+            auto rawValue = toMGLRawStyleValue(mbglStop.second);
+            stops[@(mbglStop.first)] = [MGLStyleValue valueWithRawValue:rawValue];
+        }
+        return [MGLStyleSourceExponentialFunction functionWithAttributeName:@(mbglFunction.property.c_str()) base:mbglStops.base exponentialStops:stops];
+    }
+
+    MGLStyleSourceIntervalFunction<ObjCType> *toStyleSourceIntervalFunction(const mbgl::style::SourceFunction<MBGLType> &mbglFunction) {
+        const auto &mbglStops = mbglFunction.getIntervalStops();
+        NSMutableDictionary *stops = [NSMutableDictionary dictionaryWithCapacity:mbglStops.stops.size()];
+        for (const auto &mbglStop : mbglStops.stops) {
+            auto rawValue = toMGLRawStyleValue(mbglStop.second);
+            stops[@(mbglStop.first)] = [MGLStyleValue valueWithRawValue:rawValue];
+        }
+        return [MGLStyleSourceIntervalFunction functionWithAttributeName:@(mbglFunction.property.c_str()) intervalStops:stops];
+    }
+
+    MGLStyleSourceCategoricalFunction<ObjCType> *toStyleSourceCategoricalFunction(const mbgl::style::SourceFunction<MBGLType> &mbglFunction) {
+        const auto &mbglStops = mbglFunction.getCategoricalStops();
+        NSMutableDictionary *stops = [NSMutableDictionary dictionaryWithCapacity:mbglStops.stops.size()];
+        for (const auto &mbglStop : mbglStops.stops) {
+            auto categoricalValue = mbglStop.first;
+            auto rawValue = toMGLRawStyleValue(mbglStop.second);
+            id stopKey;
+            if (categoricalValue.isBool()) {
+                stopKey = toMGLRawStyleValue(categoricalValue.asBool());
+            } else if (categoricalValue.isInteger()) {
+                stopKey = toMGLRawStyleValue(categoricalValue.asInteger());
+            } else if (categoricalValue.isString()) {
+                stopKey = toMGLRawStyleValue(categoricalValue.asString());
+            }
+            stops[stopKey] = [MGLStyleValue valueWithRawValue:rawValue];
+        }
+        MGLStyleValue<ObjCType> *defaultValue = [MGLStyleValue valueWithRawValue:toMGLRawStyleValue(mbglStops.defaultValue)];
+        return [MGLStyleSourceCategoricalFunction functionWithAttributeName:@(mbglFunction.property.c_str()) categoricalStops:stops defaultValue:defaultValue];
+    }
+
+    MGLStyleSourceIdentityFunction<ObjCType> *toStyleSourceIdentityFunction(const mbgl::style::SourceFunction<MBGLType> &mbglFunction) {
+        return [MGLStyleSourceIdentityFunction functionWithAttributeName:@(mbglFunction.property.c_str())];
+    }
+
 //    MGLStyleFunction<ObjCType> *toStyleFunction(const mbgl::style::Function<MBGLType> &mbglFunction) {
 //        const auto &mbglStops = mbglFunction.getStops();
 //        NSMutableDictionary *stops = [NSMutableDictionary dictionaryWithCapacity:mbglStops.size()];
@@ -315,40 +345,44 @@ private: // MBGL -> MGL
 //        MGLEnum mglType = *mbgl::Enum<MGLEnum>::toEnum(str);
 //        return [MGLStyleConstantValue<ObjCType> valueWithRawValue:[NSValue value:&mglType withObjCType:@encode(MGLEnum)]];
 //    }
-//
-//    NSNumber *toMGLRawStyleValue(const bool mbglStopValue) {
-//        return @(mbglStopValue);
-//    }
-//    
-//    NSNumber *toMGLRawStyleValue(const float mbglStopValue) {
-//        return @(mbglStopValue);
-//    }
-//    
-//    NSString *toMGLRawStyleValue(const std::string &mbglStopValue) {
-//        return @(mbglStopValue.c_str());
-//    }
-//    
-//    // Offsets
-//    NSValue *toMGLRawStyleValue(const std::array<float, 2> &mbglStopValue) {
-//        return [NSValue mgl_valueWithOffsetArray:mbglStopValue];
-//    }
-//    
-//    // Padding
-//    NSValue *toMGLRawStyleValue(const std::array<float, 4> &mbglStopValue) {
-//        return [NSValue mgl_valueWithPaddingArray:mbglStopValue];
-//    }
-//    
-//    MGLColor *toMGLRawStyleValue(const mbgl::Color mbglStopValue) {
-//        return [MGLColor mgl_colorWithColor:mbglStopValue];
-//    }
-//    
-//    ObjCType toMGLRawStyleValue(const std::vector<MBGLElement> &mbglStopValue) {
-//        NSMutableArray *array = [NSMutableArray arrayWithCapacity:mbglStopValue.size()];
-//        for (const auto &mbglElement: mbglStopValue) {
-//            [array addObject:toMGLRawStyleValue(mbglElement)];
-//        }
-//        return array;
-//    }
+
+    NSNumber *toMGLRawStyleValue(const bool mbglStopValue) {
+        return @(mbglStopValue);
+    }
+    
+    NSNumber *toMGLRawStyleValue(const float mbglStopValue) {
+        return @(mbglStopValue);
+    }
+
+    NSNumber *toMGLRawStyleValue(const int64_t mbglStopValue) {
+        return @(mbglStopValue);
+    }
+
+    NSString *toMGLRawStyleValue(const std::string &mbglStopValue) {
+        return @(mbglStopValue.c_str());
+    }
+    
+    // Offsets
+    NSValue *toMGLRawStyleValue(const std::array<float, 2> &mbglStopValue) {
+        return [NSValue mgl_valueWithOffsetArray:mbglStopValue];
+    }
+    
+    // Padding
+    NSValue *toMGLRawStyleValue(const std::array<float, 4> &mbglStopValue) {
+        return [NSValue mgl_valueWithPaddingArray:mbglStopValue];
+    }
+    
+    MGLColor *toMGLRawStyleValue(const mbgl::Color mbglStopValue) {
+        return [MGLColor mgl_colorWithColor:mbglStopValue];
+    }
+    
+    ObjCType toMGLRawStyleValue(const std::vector<MBGLElement> &mbglStopValue) {
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:mbglStopValue.size()];
+        for (const auto &mbglElement: mbglStopValue) {
+            [array addObject:toMGLRawStyleValue(mbglElement)];
+        }
+        return array;
+    }
 
 private: // MGL -> MBGL
 
