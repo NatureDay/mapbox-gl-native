@@ -50,6 +50,16 @@ public:
 
     std::string property;
     Stops stops;
+
+    bool hasExponentialStops()  const { return stops.template is<ExponentialStops<T>>(); }
+    bool hasIntervalStops()     const { return stops.template is<IntervalStops<T>>(); }
+    bool hasCategoricalStops()  const { return stops.template is<CategoricalStops<T>>(); }
+    bool hasIdentityStops()     const { return stops.template is<IdentityStops<T>>(); }
+
+    const ExponentialStops  <T>& getExponentialStops() const { return stops.template get<ExponentialStops<T>>(); }
+    const IntervalStops     <T>& getIntervalStops()    const { return stops.template get<IntervalStops<T>>(); }
+    const CategoricalStops  <T>& getCategoricalStops() const { return stops.template get<CategoricalStops<T>>(); }
+    const IdentityStops     <T>& getIdentityStops()    const { return stops.template get<IdentityStops<T>>(); }
 };
 
 } // namespace style

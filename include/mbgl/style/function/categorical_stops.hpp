@@ -13,6 +13,14 @@ namespace style {
 class CategoricalValue : public variant<bool, int64_t, std::string> {
 public:
     using variant<bool, int64_t, std::string>::variant;
+
+    bool isBool()     const { return this->template is<bool>(); }
+    bool isInteger()  const { return this->template is<int64_t>(); }
+    bool isString()   const { return this->template is<std::string>(); }
+
+    const bool          &  asBool()      const { return get<bool>(); }
+    const int64_t       &  asInteger()   const { return get<int64_t>(); }
+    const std::string   &  asString()    const { return get<std::string>(); }
 };
 
 template <class T>

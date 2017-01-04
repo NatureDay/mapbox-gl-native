@@ -33,7 +33,16 @@ public:
     DataDrivenPropertyValue(   SourceFunction<T> v) : value(std::move(v)) {}
     DataDrivenPropertyValue(CompositeFunction<T> v) : value(std::move(v)) {}
 
-    bool isUndefined() const { return value.template is<Undefined>(); }
+    bool isUndefined()          const { return value.template is<Undefined>(); }
+    bool isConstant()           const { return value.template is<T>(); }
+    bool isCameraFunction()     const { return value.template is<CameraFunction<T>>(); }
+    bool isSourceFunction()     const { return value.template is<SourceFunction<T>>(); }
+    bool isCompositeFunction()  const { return value.template is<CompositeFunction<T>>(); }
+
+    const                    T &  asConstant()          const { return value.template get<T>(); }
+    const CameraFunction    <T>&  asCameraFunction()    const { return value.template get<CameraFunction<T>>(); }
+    const SourceFunction    <T>&  asSourceFunction()    const { return value.template get<SourceFunction<T>>(); }
+    const CompositeFunction <T>&  asCompositeFunction() const { return value.template get<CompositeFunction<T>>(); }
 
     template <typename Evaluator>
     auto evaluate(const Evaluator& evaluator) const {
